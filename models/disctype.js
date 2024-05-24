@@ -6,7 +6,7 @@ const DisctypeSchema = new Schema({
 });
 
 DisctypeSchema.virtual("url").get(function () {
-  return `/disctype/${this._id}`
+  return `/disctype/${this._id}`;
 })
 
 module.exports = mongoose.model("Disctype", DisctypeSchema);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const manufacturer = require("./manufacturer");
+const manufacturer = require("./manufacturer")
 const Schema = mongoose.Schema;
 
 const DiscSchema = new Schema({
@@ -13,7 +13,7 @@ const DiscSchema = new Schema({
 });
 
 DiscSchema.virtual("url").get(function () {
-  return `/disc/${this._id}`
+  return `/disc/${this._id}`;
 })
 
 module.exports = mongoose.model("Disc", DiscSchema);
