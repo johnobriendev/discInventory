@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const DiscSchema = new Schema({
   title: {type: String, required : true},
   manufacturer: {type: Schema.Types.ObjectId, ref: "Manufacturer", required: true},
-  disctype: {type: Schema.Types.ObjectId, ref: "Disctype", required: true, enum: ["Distance", "Fairway", "Midrange", "Putter"]},
+  disctype: {type: Schema.Types.ObjectId, ref: "Disctype", required: true},
   speed: {type: Number, required: true, minLength: 1, maxLength: 14},
   glide: {type: Number, required: true, minLength: 1, maxLength: 7},
   turn: {type: Number, required: true, minLength: -4, maxLength: 1},
