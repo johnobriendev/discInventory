@@ -36,9 +36,7 @@ async function main() {
   mongoose.connection.close();
 }
 
-// We pass the index to the ...Create functions so that, for example,
-// genre[0] will always be the Fantasy genre, regardless of the order
-// in which the elements of promise.all's argument complete.
+
 async function disctypeCreate(index, name) {
   const disctype = new Disctype({ name: name });
   await disctype.save();
@@ -51,26 +49,28 @@ async function manufacturerCreate(index, name) {
   if (d_birth != false) authordetail.date_of_birth = d_birth;
   if (d_death != false) authordetail.date_of_death = d_death;
 
-  const author = new Author(authordetail);
+  const manufacturer = new Manufacturer(authordetail);
 
-  await author.save();
-  authors[index] = author;
-  console.log(`Added author: ${first_name} ${family_name}`);
+  await manufacturer.save();
+  manufacturers[index] = manufacturer;
+  console.log(`Added manufacturer: ${name}`);
 }
 
-async function bookCreate(index, title, summary, isbn, author, genre) {
-  const bookdetail = {
-    title: title,
-    summary: summary,
-    author: author,
-    isbn: isbn,
+async function discCreate(index, name, manufacturer, disctype, speed, glide, turn, fade) {
+  const discdetail = {
+    name: name,
+    manufacturer: manufacturer,
+    disctype: disctype,
+    speed: speed,
+    glide: glide,
+    turn: turn,
+    fade: fade,
   };
-  if (genre != false) bookdetail.genre = genre;
 
-  const book = new Book(bookdetail);
-  await book.save();
-  books[index] = book;
-  console.log(`Added book: ${title}`);
+  const disc = new Disc(bookdetail);
+  await disc.save();
+  discs[index] = disc
+  console.log(`Added disc: ${name}`);
 }
 
 async function bookInstanceCreate(index, book, imprint, due_back, status) {
