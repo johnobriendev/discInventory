@@ -73,18 +73,19 @@ async function discCreate(index, name, manufacturer, disctype, speed, glide, tur
   console.log(`Added disc: ${name}`);
 }
 
-async function bookInstanceCreate(index, book, imprint, due_back, status) {
-  const bookinstancedetail = {
-    book: book,
-    imprint: imprint,
+async function discinstanceCreate(index, disc, instance, plastic, weight) {
+  const discinstancedetail = {
+    disc: disc,
+    instance: instance,
+    plastic: plastic,
+    weight: weight,
   };
-  if (due_back != false) bookinstancedetail.due_back = due_back;
-  if (status != false) bookinstancedetail.status = status;
+ 
 
-  const bookinstance = new BookInstance(bookinstancedetail);
-  await bookinstance.save();
-  bookinstances[index] = bookinstance;
-  console.log(`Added bookinstance: ${imprint}`);
+  const discinstance = new DiscInstance(discinstancedetail);
+  await discinstance.save();
+  discinstances[index] = discinstance;
+  console.log(`Added discinstance: ${imprint}`);
 }
 
 async function createGenres() {
