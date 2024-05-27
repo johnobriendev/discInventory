@@ -66,7 +66,7 @@ async function discCreate(index, name, manufacturer, disctype, speed, glide, tur
     fade: fade,
   };
 
-  const disc = new Disc(bookdetail);
+  const disc = new Disc(discdetail);
   await disc.save();
   discs[index] = disc
   console.log(`Added disc: ${name}`);
@@ -81,10 +81,10 @@ async function discinstanceCreate(index, disc, plastic, weight, color) {
   };
  
 
-  const discinstance = new DiscInstance(discinstancedetail);
+  const discinstance = new Discinstance(discinstancedetail);
   await discinstance.save();
   discinstances[index] = discinstance;
-  console.log(`Added discinstance: ${instance}`);
+  //console.log(`Added discinstance: ${instance}`);
 }
 
 async function createDisctypes() {
@@ -111,18 +111,18 @@ async function createManufacturers() {
 async function createDiscs() {
   console.log("Adding Discs ");
   await Promise.all([
-    discCreate(0, "Destroyer", "Innova", "Distance Driver", 12, 5, -1, 3),
-    discCreate(1, "Wraith", "Innova", "Distance Driver", 11, 5, -1, 3),
-    discCreate(2, "Beast", "Innova", "Distance Driver", 10, 5, -2, 2),
-    discCreate(3, "Sidewinder", "Innova", "Distance Driver", 9, 5, -3, 1),
-    discCreate(4, "Tern", "Innova", "Distance Driver", 12, 5, -3, 2),
-    discCreate(5, "Teebird", "Innova", "Fairway Driver", 7, 5, 0, 2),
-    discCreate(6, "Eagle", "Innova", "Fairway Driver", 7, 5, -1, 3),
-    discCreate(7, "Leopard", "Innova", "Fairway Driver", 6, 5, -2, 1),
-    discCreate(8, "Roc", "Innova", "Midrange", 4, 4, 0, 3),
-    discCreate(9, "Shark", "Innova", "Midrange", 4, 4, 0, 2),
-    discCreate(10, "Aviar", "Innova", "Midrange", 2, 3, 0, 1),
-    discCreate(11, "KC Pro Aviar", "Innova", "Midrange", 2, 3, 0, 2),
+    discCreate(0, "Destroyer", manufacturers[0], disctypes[0], 12, 5, -1, 3),
+    discCreate(1, "Wraith", manufacturers[0], disctypes[0], 11, 5, -1, 3),
+    discCreate(2, "Beast", manufacturers[0], disctypes[0], 10, 5, -2, 2),
+    discCreate(3, "Sidewinder", manufacturers[0], disctypes[0], 9, 5, -3, 1),
+    discCreate(4, "Tern", manufacturers[0], disctypes[0], 12, 5, -3, 2),
+    discCreate(5, "Teebird", manufacturers[0], disctypes[1], 7, 5, 0, 2),
+    discCreate(6, "Eagle", manufacturers[0], disctypes[1], 7, 5, -1, 3),
+    discCreate(7, "Leopard", manufacturers[0], disctypes[1], 6, 5, -2, 1),
+    discCreate(8, "Roc", manufacturers[0], disctypes[2], 4, 4, 0, 3),
+    discCreate(9, "Shark", manufacturers[0], disctypes[2], 4, 4, 0, 2),
+    discCreate(10, "Aviar", manufacturers[0], disctypes[3], 2, 3, 0, 1),
+    discCreate(11, "KC Pro Aviar", manufacturers[0], disctypes[3], 2, 3, 0, 2),
     
   ]);
 }

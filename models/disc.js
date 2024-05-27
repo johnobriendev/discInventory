@@ -3,7 +3,7 @@ const manufacturer = require("./manufacturer")
 const Schema = mongoose.Schema;
 
 const DiscSchema = new Schema({
-  title: {type: String, required : true},
+  name: {type: String, required : true},
   manufacturer: {type: Schema.Types.ObjectId, ref: "Manufacturer", required: true},
   disctype: {type: Schema.Types.ObjectId, ref: "Disctype", required: true},
   speed: {type: Number, required: true, minLength: 1, maxLength: 14},
