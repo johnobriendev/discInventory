@@ -9,7 +9,7 @@ exports.manufacturer_list = asyncHandler(async (req, res, next) => {
 exports.manufacturer_detail = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: Author detail: ${req.params.id}`);
 });
-//Display manufacturer Create on get
+//create get
 exports.manufacturer_create_get.asyncHandler(async(req, res, next) =>{
   res.send("not implemented");
 });
