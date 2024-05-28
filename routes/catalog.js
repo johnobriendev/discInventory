@@ -12,42 +12,59 @@ const discinstance_controller = require("../controllers/discinstanceController")
 
 //get catalog home page
 router.get("/", disc_controller.index);
+
 //get create 
 router.get("disc/create", disc_controller.disc_create_get);
+
 //post create 
 router.post("disc/create", disc_controller.disc_create_post);
+
 //get delete 
 router.get("disc/:id/delete", disc_controller.disc_delete_get);
+
 //post delete 
 router.post("disc/:id/delete", disc_controller.disc_delete_post);
+
 //get update
 router.post("disc/:id/update", disc_controller.disc_update_get);
+
 //post update
 router.post("disc/:id/update", disc_controller.disc_update_post);
+
 //get one
 router.get("disc/:id", disc_controller.disc_detail)
+
 //get all
 router.get("discs/", disc_controller.disc_list);
+
 
 
 //manufacturer routes
 
 //get create 
 router.get("manufacturer/create", manufacturer_controller.manufacturer_create_get);
+
 //post create 
 router.post("manufacturer/create", manufacturer_controller.manufacturer_create_post);
+
 //get delete 
 router.get("manufacturer/:id/delete", manufacturer_controller.manufacturer_delete_get);
+
 //post delete 
 router.post("manufacturer/:id/delete", manufacturer_controller.manufacturer_delete_post);
+
 //get update
 router.post("manufacturer/:id/update", manufacturer_controller.manufacturer_update_get);
+
 //post update
 router.post("manufacturer/:id/update", manufacturer_controller.manufacturer_update_post);
+
 //get one
 router.get("manufacturer/:id", manufacturer_controller.manufacturer_detail)
+
 //get all
 router.get("manufacturers/", manufacturer_controller.manufacturer_list);
+
 
 
 //disctype routes
