@@ -6,7 +6,7 @@ block content
     ul 
       each disc in disc_list 
         li  
-         
+          a(href=disc.url) #{disc.manufacturer + "" + disc.name}
 
   else 
     p There are no discs
