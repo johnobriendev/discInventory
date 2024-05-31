@@ -1,8 +1,29 @@
 const Disc = require("../models/disc");
+const Manufacturer = require("../models/manufacturer");
+const Disctype = require("../models/disctype");
+const Discinstance = require("../models/discinstance")
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler(async (req, res, next) => {
-  res.send("Home Page : not implemented yet")
+  const [
+    numDiscs,
+    numDiscinstances,
+    numManufacturers,
+    numDisctypes,
+  ] = await Promise.all([
+    Disc.countDocuments({}).exec(),
+    Discinstance.countDocuments({}).exec(),
+    Manufacturer.countDocuments({}).exec(),
+    Disctype.countDocuments({}).exec(),
+  
+  ]);
+  res.render("index", {
+    title: "Disc Inventory",
+    disc_count: numDiscs,
+    disc_instance_count: numDiscinstances,
+    manufacturer_count: numManufacturers,
+    disctype_count: numDisctypes,
+  })
 })
 
 // Display list of all discs.
