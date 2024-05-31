@@ -35,7 +35,7 @@ router.post("disc/:id/update", disc_controller.disc_update_post);
 router.get("disc/:id", disc_controller.disc_detail)
 
 //get all
-router.get("discs/", disc_controller.disc_list);
+router.get("/discs/", disc_controller.disc_list);
 
 
 

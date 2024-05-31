@@ -28,7 +28,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of all discs.
 exports.disc_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: disc list");
+  const allDiscs = await Disc.find({}, "title manufacturer").sort({ name: 1 }).populate("manufacturer").exec();
+
+  res.render("disc_list", {title: "Disc List", disc_list: allDiscs});
 });
 
 // Display detail page for a specific disc.
