@@ -2,7 +2,12 @@ const Disctype = require("../models/disctype");
 const asyncHandler = require("express-async-handler");
 // Display list of all disctypes.
 exports.disctype_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: disctype list");
+  const allDisctypes = await Disctype.find().exec();
+
+  res.render("disctype_list", {
+    title: "Discs by Category",
+    disctype_list: allDisctypes,
+  });
 });
 
 // Display detail page for a specific disctype.
