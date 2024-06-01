@@ -2,7 +2,12 @@ const Manufacturer = require("../models/manufacturer");
 const asyncHandler = require("express-async-handler");
 // Display list of all Manufacturers.
 exports.manufacturer_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Manufacturer list");
+  const allManufacturers = await Manufacturer.find().exec();
+
+  res.render("manufacturer_list", {
+    title: "Disc Manufacturers",
+    manufacturer_list: allManufacturers,
+  });
 });
 
 // Display detail page for a specific Manufacturer.
