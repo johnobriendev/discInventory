@@ -2,7 +2,12 @@ const Discinstance = require("../models/discinstance");
 const asyncHandler = require("express-async-handler");
 // Display list of all discinstances.
 exports.discinstance_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: discinstance list");
+  const allDiscInstances = await Discinstance.find().populate('disc').exec();
+
+  res.render("discinstance_list", {
+    title: "Discs in Stock",
+    discinstance_list: allDiscInstances,
+  });
 });
 
 // Display detail page for a specific discinstance.
