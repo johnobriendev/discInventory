@@ -17,7 +17,7 @@ exports.disctype_detail = asyncHandler(async (req, res, next) => {
   
   const [disctype, discsInType] = await Promise.all([
     Disctype.findById(req.params.id).exec(),
-    Disc.find({ disctype: req.params.id }).exec(),
+    Disc.find({ disctype: req.params.id }).populate("manufacturer").exec(),
   ]);
   if (disctype === null) {
     // No results.
