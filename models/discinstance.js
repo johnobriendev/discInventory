@@ -9,7 +9,7 @@ const DiscinstanceSchema = new Schema({
 })
 
 DiscinstanceSchema.virtual("url").get(function () {
-  return `catalog/discinstance/$${this._id}`;
+  return `/catalog/discinstance/${this._id}`;
 });
 
 module.exports = mongoose.model("Discinstance", DiscinstanceSchema);
