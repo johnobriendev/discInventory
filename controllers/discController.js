@@ -35,7 +35,23 @@ exports.disc_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific disc.
 exports.disc_detail = asyncHandler(async (req, res, next) => {
-  
+  const [disc, discinstances] = await Promise.all([
+    Disc.findById(req.params.id).populate("manufacturer").populate("disctype").exec(),
+    Discinstance.find({disc: req.params.id}).populate("disc").exec(),
+  ]);
+
+  if(disc === null){
+    //No results.
+    const err = new Error("Disc not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("disc_detail", {
+    title: disc.name,
+    disc: disc,
+    disc_instances: discinstances,
+  })
 });
 
 //create get

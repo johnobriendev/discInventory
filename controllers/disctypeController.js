@@ -32,23 +32,6 @@ exports.disctype_detail = asyncHandler(async (req, res, next) => {
     disctype_discs: discsInType,
   });
 
-  
-  
-  // const [disctype, discsInDisctype] = await Promise.all([
-  //   Disctype.findById(req.params.id).exec(),
-  //   Disc.find({disctype: req.params.id}, "summary").exec()
-  // ]);
-  // if (disctype === null) {
-  //   // No results.
-  //   const err = new Error("Disc type not found");
-  //   err.status = 404;
-  //   return next(err);
-  // }
-  // res.render("disctype_detail", {
-  //   title: "Disc Details",
-  //   disctype: disctype,
-  //   discs_in_type: discsInDisctype,
-  // });
 });
 //create get
 exports.disctype_create_get = asyncHandler(async(req, res, next) =>{
