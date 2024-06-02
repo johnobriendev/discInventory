@@ -82,7 +82,7 @@ router.post("/disctype/:id/update", disctype_controller.disctype_update_get);
 //post update
 router.post("/disctype/:id/update", disctype_controller.disctype_update_post);
 //get one
-router.get("/disctype/:id", disctype_controller.disctype_detail)
+router.get('/disctype/:id', disctype_controller.disctype_detail);
 //get all
 router.get("/disctypes/", disctype_controller.disctype_list);
 

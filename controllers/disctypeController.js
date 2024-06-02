@@ -1,4 +1,5 @@
 const Disctype = require("../models/disctype");
+const Disc = require("../models/disc");
 const asyncHandler = require("express-async-handler");
 // Display list of all disctypes.
 exports.disctype_list = asyncHandler(async (req, res, next) => {
@@ -12,7 +13,42 @@ exports.disctype_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific disctype.
 exports.disctype_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: Author detail: ${req.params.id}`);
+  console.log('Requested ID:', req.params.id);
+  
+  const [disctype, discsInType] = await Promise.all([
+    Disctype.findById(req.params.id).exec(),
+    Disc.find({ disctype: req.params.id }).exec(),
+  ]);
+  if (disctype === null) {
+    // No results.
+    const err = new Error("Disctype not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("disctype_detail", {
+    title: "Disc Detail",
+    disctype: disctype,
+    disctype_discs: discsInType,
+  });
+
+  
+  
+  // const [disctype, discsInDisctype] = await Promise.all([
+  //   Disctype.findById(req.params.id).exec(),
+  //   Disc.find({disctype: req.params.id}, "summary").exec()
+  // ]);
+  // if (disctype === null) {
+  //   // No results.
+  //   const err = new Error("Disc type not found");
+  //   err.status = 404;
+  //   return next(err);
+  // }
+  // res.render("disctype_detail", {
+  //   title: "Disc Details",
+  //   disctype: disctype,
+  //   discs_in_type: discsInDisctype,
+  // });
 });
 //create get
 exports.disctype_create_get = asyncHandler(async(req, res, next) =>{

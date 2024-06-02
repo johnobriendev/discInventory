@@ -35,7 +35,7 @@ exports.disc_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific disc.
 exports.disc_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: Author detail: ${req.params.id}`);
+  
 });
 
 //create get

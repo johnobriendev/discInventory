@@ -13,7 +13,7 @@ const DiscSchema = new Schema({
 });
 
 DiscSchema.virtual("url").get(function () {
-  return `/disc/${this._id}`;
+  return `/catalog/disc/${this._id}`;
 })
 
 module.exports = mongoose.model("Disc", DiscSchema);
