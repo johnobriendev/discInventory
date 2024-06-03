@@ -29,6 +29,39 @@ block content
             else
               input.checkbox-input(type='checkbox', name='disctype', id=disctype._id, value=disctype._id)
             label(for=disctype._id) &nbsp;#{disctype.name}
+    
+    
+    div.form-group
+      label(for='speed') Speed:
+      select#speed.form-control(name='speed' required)
+        option(value='') --Select Speed--
+        for i in Array.from({length: 14}, (_, index) => index + 1)
+          option(value=i)= i
+
+    
+    div.form-group
+      label(for='glide') Glide:
+      select#glide.form-control(name='glide' required)
+        option(value='') --Select Glide--
+        for i in Array.from({length: 6}, (_, index) => index + 1)
+          option(value=i)= i
+
+    
+    div.form-group
+      label(for='turn') Turn:
+      select#turn.form-control(name='turn' required)
+        option(value='') --Select Turn--
+        for i in Array.from({length: 7}, (_, index) => index - 5)
+          option(value=i)= i
+
+    
+    div.form-group
+      label(for='fade') Fade:
+      select#fade.form-control(name='fade' required)
+        option(value='') --Select Fade--
+        for i in Array.from({length: 6}, (_, index) => index)
+          option(value=i)= i
+
     button.btn.btn-primary(type='submit') Submit
 
   if errors
