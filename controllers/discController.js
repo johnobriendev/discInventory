@@ -73,15 +73,6 @@ exports.disc_create_get = asyncHandler(async(req, res, next) =>{
 // create post
 exports.disc_create_post = [
   
-  // Convert the genre to an array.
-  (req, res, next) => {
-    if (!Array.isArray(req.body.disctype)) {
-      req.body.disctype =
-        typeof req.body.disctype === "undefined" ? [] : [req.body.disctype];
-    }
-    next();
-  },
-
   // Validate and sanitize fields.
   body("name", "Name must not be empty.")
     .trim()
@@ -103,7 +94,7 @@ exports.disc_create_post = [
   body("fade")
     .isNumeric({min: 0, max: 5})
     .escape(),
-  body("disctype.*").escape(),
+  body("disctype").escape(),
   // Process request after validation and sanitization.
 
   asyncHandler(async (req, res, next) => {
@@ -132,7 +123,7 @@ exports.disc_create_post = [
 
       // Mark our selected genres as checked.
       for (const disctype of allDisctypes) {
-        if (disc.disctype.includes(disctype._id)) {
+        if (disctype._id.toString() === disc.disctype) {
           disctype.checked = "true";
         }
       }

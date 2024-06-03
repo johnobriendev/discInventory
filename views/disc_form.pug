@@ -6,7 +6,7 @@ block content
   form(method='POST')
     div.form-group
       label(for='name') Disc Name:
-      input#name.form-control(type='text', placeholder='Name of disc' name='disc' required value=(undefined===disc ? '' : disc.name) )
+      input#name.form-control(type='text', placeholder='Name of disc' name='name' required value=(undefined===disc ? '' : disc.name) )
     div.form-group
       label(for='manufacturer') Manufacturer:
       select#manufacturer.form-control(name='manufacturer' required)
@@ -25,9 +25,9 @@ block content
         for disctype in disctypes
           div(style='display: inline; padding-right:10px;')
             if disctype.checked
-              input.checkbox-input(type='checkbox', name='disctype', id=disctype._id, value=disctype._id, checked)
+              input.checkbox-input(type='radio', name='disctype', id=disctype._id, value=disctype._id, checked)
             else
-              input.checkbox-input(type='checkbox', name='disctype', id=disctype._id, value=disctype._id)
+              input.checkbox-input(type='radio', name='disctype', id=disctype._id, value=disctype._id)
             label(for=disctype._id) &nbsp;#{disctype.name}
     
     
