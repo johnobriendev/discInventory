@@ -72,11 +72,44 @@ exports.manufacturer_create_post = [
  
 //delete get
 exports.manufacturer_delete_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [manufacturer, allDiscsByManufacturer] = await Promise.all([
+    Manufacturer.findById(req.params.id).exec(),
+    Disc.find({ manufacturer: req.params.id }).exec(),
+  ]);
+
+  if (manufacturer === null) {
+    // No results.
+    res.redirect("/catalog/manufacturers");
+  }
+
+  res.render("manufacturer_delete", {
+    title: "Delete manufacturer",
+    manufacturer: manufacturer,
+    manufacturer_discs: allDiscsByManufacturer,
+  });
 });
+
 //delete post
 exports.manufacturer_delete_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  // Get details of author and all their discs (in parallel)
+  const [manufacturer, allDiscsByManufacturer] = await Promise.all([
+    Manufacturer.findById(req.params.id).exec(),
+    Disc.find({ manufacturer: req.params.id }).exec(),
+  ]);
+
+  if (allDiscsByManufacturer.length > 0) {
+    // manufacturer has discs. Render in same way as for GET route.
+    res.render("manufacturer_delete", {
+      title: "Delete Manufacturer",
+      manufacturer: manufacturer,
+      manufacturer_discs: allDiscsByManufacturer,
+    });
+    return;
+  } else {
+    // manufacturer has no discs. Delete object and redirect to the list of manufacturers.
+    await Manufacturer.findByIdAndDelete(req.body.manufacturerid);
+    res.redirect("/catalog/manufacturers");
+  }
 });
 //update get
 exports.manufacturer_update_get = asyncHandler(async(req, res, next) =>{
