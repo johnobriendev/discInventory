@@ -1,5 +1,10 @@
 const Discinstance = require("../models/discinstance");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
+const Disc = require("../models/disc");
+
+
+
 // Display list of all discinstances.
 exports.discinstance_list = asyncHandler(async (req, res, next) => {
   const allDiscInstances = await Discinstance.find().populate('disc').exec();
@@ -29,12 +34,55 @@ exports.discinstance_detail = asyncHandler(async (req, res, next) => {
 });
 //create get
 exports.discinstance_create_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const allDiscs = await Disc.find({},"name").exec();
+
+  res.render("discinstance_form", {
+    title: "Create instance of disc",
+    disc_list: allDiscs,
+  })
 });
 // create post
-exports.discinstance_create_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
-});
+exports.discinstance_create_post = [
+  body("disc", "Disc must be specified").escape(),
+  body("plastic", "Imprint must be specified")
+    .escape(),
+  body("weight", "Weight must be specified").isNumeric({min: 130, max: 180}).escape(),
+  body("color", "Color must be specified").escape(),
+    
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a BookInstance object with escaped and trimmed data.
+    const discInstance = new Discinstance({
+      disc: req.body.disc,
+      plastic: req.body.plastic,
+      weight: req.body.weight,
+      color: req.body.color,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors.
+      // Render form again with sanitized values and error messages.
+      const allDiscs = await Disc.find({}, "name").exec();
+
+      res.render("discinstance_form", {
+        title: "Create an copy of a disc",
+        disc_list: allDiscs,
+        selected_disc: discInstance.disc._id,
+        errors: errors.array(),
+        discinstance: discInstance,
+      });
+      return;
+    } else {
+      // Data from form is valid
+      await discInstance.save();
+      res.redirect(discInstance.url);
+    }
+  }),
+];
 //delete get
 exports.discinstance_delete_get = asyncHandler(async(req, res, next) =>{
   res.send("not implemented");
