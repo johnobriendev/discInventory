@@ -146,12 +146,43 @@ exports.disc_create_post = [
 
 //delete get
 exports.disc_delete_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [disc , allInstancesOfDisc] = await Promise.all([
+    Disc.findById(req.params.id).exec(),
+    Discinstance.find({disc: req.params.id}).populate("disc").exec(),
+  ])
+
+  if (disc === null) {
+    // No results.
+    res.redirect("/catalog/discs");
+  }
+
+  res.render("disc_delete", {
+    title: "Delete Disc",
+    disc: disc,
+    disc_instances: allInstancesOfDisc,
+  });
 });
 
 //delete post
 exports.disc_delete_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [disc , allInstancesOfDisc] = await Promise.all([
+    Disc.findById(req.params.id).exec(),
+    Discinstance.find({disc: req.params.id}).populate("disc").exec(),
+  ])
+
+  if (allInstancesOfDisc.length > 0) {
+    // manufacturer has discs. Render in same way as for GET route.
+    res.render("disc_delete", {
+      title: "Delete Disc",
+      disc: disc,
+      disc_instances: allInstancesOfDisc,
+    });
+    return;
+  } else {
+    // manufacturer has no discs. Delete object and redirect to the list of manufacturers.
+    await Disc.findByIdAndDelete(req.body.discid);
+    res.redirect("/catalog/discs");
+  }
 });
 
 //update get
