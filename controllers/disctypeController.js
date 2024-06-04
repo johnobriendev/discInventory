@@ -82,11 +82,44 @@ exports.disctype_create_post = [
 ];
 //delete get
 exports.disctype_delete_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  
+    const [disctype, allDiscsByDisctype] = await Promise.all([
+      Disctype.findById(req.params.id).exec(),
+      Disc.find({ disctype: req.params.id }).exec(),
+    ]);
+  
+    if (disctype === null) {
+      // No results.
+      res.redirect("/catalog/disctypes");
+    }
+  
+    res.render("disctype_delete", {
+      title: "Delete disctype",
+      disctype: disctype,
+      disctype_discs: allDiscsByDisctype,
+    });
+  
 });
 //delete post
 exports.disctype_delete_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [disctype, allDiscsByDisctype] = await Promise.all([
+    Disctype.findById(req.params.id).exec(),
+    Disc.find({ disctype: req.params.id }).exec(),
+  ]);
+
+  if (allDiscsByDisctype.length > 0) {
+    // disctype has discs. Render in same way as for GET route.
+    res.render("disctype_delete", {
+      title: "Delete Disctype",
+      disctype: disctype,
+      disctype_discs: allDiscsByDisctype,
+    });
+    return;
+  } else {
+    // disctype has no discs. Delete object and redirect to the list of disctypes.
+    await Disctype.findByIdAndDelete(req.body.disctypeid);
+    res.redirect("/catalog/disctypes");
+  }
 });
 //update get
 exports.disctype_update_get = asyncHandler(async(req, res, next) =>{

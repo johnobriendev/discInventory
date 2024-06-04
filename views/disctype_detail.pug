@@ -8,3 +8,8 @@ block content
    each disc in disctype_discs
     li 
       a(href=disc.url) #{disc.manufacturer.name + " " + disc.name}
+
+
+  hr
+  p
+   a(href=disctype.url+'/delete') Delete disctype
