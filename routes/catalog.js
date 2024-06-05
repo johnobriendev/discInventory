@@ -54,7 +54,7 @@ router.get("/manufacturer/:id/delete", manufacturer_controller.manufacturer_dele
 router.post("/manufacturer/:id/delete", manufacturer_controller.manufacturer_delete_post);
 
 //get update
-router.post("/manufacturer/:id/update", manufacturer_controller.manufacturer_update_get);
+router.get("/manufacturer/:id/update", manufacturer_controller.manufacturer_update_get);
 
 //post update
 router.post("/manufacturer/:id/update", manufacturer_controller.manufacturer_update_post);
@@ -78,7 +78,7 @@ router.get("/disctype/:id/delete", disctype_controller.disctype_delete_get);
 //post delete 
 router.post("/disctype/:id/delete", disctype_controller.disctype_delete_post);
 //get update
-router.post("/disctype/:id/update", disctype_controller.disctype_update_get);
+router.get("/disctype/:id/update", disctype_controller.disctype_update_get);
 //post update
 router.post("/disctype/:id/update", disctype_controller.disctype_update_post);
 //get one
@@ -97,7 +97,7 @@ router.get("/discinstance/:id/delete", discinstance_controller.discinstance_dele
 //post delete 
 router.post("/discinstance/:id/delete", discinstance_controller.discinstance_delete_post);
 //get update
-router.post("/discinstance/:id/update", discinstance_controller.discinstance_update_get);
+router.get("/discinstance/:id/update", discinstance_controller.discinstance_update_get);
 //post update
 router.post("/discinstance/:id/update", discinstance_controller.discinstance_update_post);
 //get one
