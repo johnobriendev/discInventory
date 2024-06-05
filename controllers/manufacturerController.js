@@ -46,7 +46,7 @@ exports.manufacturer_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create Author object with escaped and trimmed data
+    // Create Manufacturer object with escaped and trimmed data
     const manufacturer = new Manufacturer({
       name: req.body.name
     });
@@ -113,9 +113,44 @@ exports.manufacturer_delete_post = asyncHandler(async(req, res, next) =>{
 });
 //update get
 exports.manufacturer_update_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const manufacturer = await Manufacturer.findById(req.params.id).exec();
+  
+  if (manufacturer === null) {
+    const err = new Error("Manufacturer not found");
+    err.status = 404;
+    return next(err);
+  }
+  
+  res.render("manufacturer_form", {
+    title: "Update Manufacturer",
+    manufacturer: manufacturer
+  });
 });
 //update post
-exports.manufacturer_update_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
-});
+exports.manufacturer_update_post = [
+  body("name", "Name must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const manufacturer = new Manufacturer({
+      name: req.body.name,
+      _id: req.params.id
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("manufacturer_form", {
+        title: "Update Manufacturer",
+        manufacturer: manufacturer,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      const updatedManufacturer = await Manufacturer.findByIdAndUpdate(req.params.id, manufacturer, {});
+      res.redirect(updatedManufacturer.url);
+    }
+  }),
+];
