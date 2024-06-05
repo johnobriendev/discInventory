@@ -85,11 +85,22 @@ exports.discinstance_create_post = [
 ];
 //delete get
 exports.discinstance_delete_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const discinstance = await Discinstance.findById(req.params.id).populate("disc").exec();
+
+  if (discinstance === null) {
+    // No results.
+    res.redirect("/catalog/discinstances");
+  }
+
+  res.render("discinstance_delete", {
+    title: "Delete discinstance",
+    discinstance: discinstance,
+  });
 });
 //delete post
 exports.discinstance_delete_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  await Discinstance.findByIdAndDelete(req.body.id);
+  res.redirect("/catalog/discinstances");
 });
 //update get
 exports.discinstance_update_get = asyncHandler(async(req, res, next) =>{
