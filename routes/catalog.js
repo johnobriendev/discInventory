@@ -26,7 +26,7 @@ router.get("/disc/:id/delete", disc_controller.disc_delete_get);
 router.post("/disc/:id/delete", disc_controller.disc_delete_post);
 
 //get update
-router.post("/disc/:id/update", disc_controller.disc_update_get);
+router.get("/disc/:id/update", disc_controller.disc_update_get);
 
 //post update
 router.post("/disc/:id/update", disc_controller.disc_update_post);

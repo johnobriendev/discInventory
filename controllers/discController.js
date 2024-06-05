@@ -187,10 +187,101 @@ exports.disc_delete_post = asyncHandler(async(req, res, next) =>{
 
 //update get
 exports.disc_update_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [disc, allManufacturers, allDisctypes] = await Promise.all([
+    Disc.findById(req.params.id).populate("manufacturer").populate("disctype").exec(),
+    Manufacturer.find().exec(),
+    Disctype.find().exec(),
+  ]);
+
+  if (disc === null) {
+    const err = new Error("Disc not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  // allDisctypes.forEach((disctype) => {
+  //   if (disc.disctype.includes(disctype._id)) {
+  //     disctype.checked = "true";
+  //   }  
+  // });
+
+  res.render("disc_form", {
+    title: "Update Disc",
+    manufacturers: allManufacturers,
+    disctypes: allDisctypes,
+    disc: disc,
+  });
 });
 
 //update post
-exports.disc_update_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
-});
+exports.disc_update_post = [
+
+  // Validate and sanitize fields.
+  body("name", "Name must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("manufacturer", "Manufacturer must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("speed")
+    .isNumeric({min: 1, max: 14})
+    .escape(),
+  body("glide")
+    .isNumeric({min: 1, max: 6})
+    .escape(),
+  body("turn")
+    .isNumeric({min: -5, max: 1})
+    .escape(),
+  body("fade")
+    .isNumeric({min: 0, max: 5})
+    .escape(),
+  body("disctype").escape(),
+  // Process request after validation and sanitization.
+
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Book object with escaped and trimmed data.
+    const disc = new Disc({
+      name: req.body.name,
+      manufacturer: req.body.manufacturer,
+      speed: req.body.speed,
+      glide: req.body.glide,
+      turn: req.body.turn,
+      fade: req.body.fade,
+      disctype: req.body.disctype,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+
+      // Get all authors and genres for form.
+      const [allManufacturers, allDisctypes] = await Promise.all([
+        Manufacturer.find().exec(),
+        Disctype.find().exec(),
+      ]);
+
+      // Mark our selected genres as checked.
+      for (const disctype of allDisctypes) {
+        if (disctype._id.toString() === disc.disctype) {
+          disctype.checked = "true";
+        }
+      }
+      res.render("disc_form", {
+        title: "Update Disc",
+        manufacturers: allManufacturers,
+        disctypes: allDisctypes,
+        disc: disc,
+        errors: errors.array(),
+      });
+    } else {
+      // Data from form is valid. Save book.
+      const updatedDisc = await Disc.findByIdAndUpdate(req.params.id, disc, {});
+      res.redirect(updatedDisc.url);
+    }
+  }),
+];
