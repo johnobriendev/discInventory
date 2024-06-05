@@ -123,9 +123,9 @@ exports.disctype_delete_post = asyncHandler(async(req, res, next) =>{
 });
 //update get
 exports.disctype_update_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  res.send("not implemented/not needed");
 });
 //update post
 exports.disctype_update_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  res.send("not implemented/not needed");
 });

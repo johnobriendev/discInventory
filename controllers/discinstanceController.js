@@ -104,9 +104,67 @@ exports.discinstance_delete_post = asyncHandler(async(req, res, next) =>{
 });
 //update get
 exports.discinstance_update_get = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
+  const [discInstance, allDiscs] = await Promise.all([
+    Discinstance.findById(req.params.id).populate("disc").exec(),
+    Disc.find().exec(),
+    
+  ]);
+
+  if (discInstance === null) {
+    const err = new Error("Disc Copy not found");
+    err.status = 404;
+    return next(err);
+  }
+
+
+  res.render("discinstance_form", {
+    title: "Update Disc Copy",
+    disc_list: allDiscs,
+    discinstance: discInstance,
+    selected_disc: discInstance.disc._id.toString(),
+    selected_plastic: discInstance.plastic,
+  });
 });
 //update post
-exports.discinstance_update_post = asyncHandler(async(req, res, next) =>{
-  res.send("not implemented");
-});
+exports.discinstance_update_post = [
+  body("disc", "Disc must be specified").escape(),
+  body("plastic", "Imprint must be specified")
+    .escape(),
+  body("weight", "Weight must be specified").isNumeric({min: 130, max: 180}).escape(),
+  body("color", "Color must be specified").escape(),
+    
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a BookInstance object with escaped and trimmed data.
+    const discInstance = new Discinstance({
+      disc: req.body.disc,
+      plastic: req.body.plastic,
+      weight: req.body.weight,
+      color: req.body.color,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors.
+      // Render form again with sanitized values and error messages.
+      const allDiscs = await Disc.find({}, "name").exec();
+
+      res.render("discinstance_form", {
+        title: "Create an copy of a disc",
+        disc_list: allDiscs,
+        selected_disc: discInstance.disc._id,
+        errors: errors.array(),
+        discinstance: discInstance,
+      });
+      return;
+    } else {
+      // Data from form is valid
+      const updatedDiscinstance = await Discinstance.findByIdAndUpdate(req.params.id, discInstance, {});
+      res.redirect(updatedDiscinstance.url);
+    }
+  }),
+]
